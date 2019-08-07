@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './transaction.dart';
+import 'package:intl/intl.dart';
 
 class TransactionCard extends StatelessWidget {
   final Transaction transaction;
@@ -9,7 +10,7 @@ class TransactionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.indigo,
+      color: Colors.white,
       child: Row(
         children: <Widget>[
           Container(
@@ -17,12 +18,32 @@ class TransactionCard extends StatelessWidget {
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.black, width: 2)),
             padding: EdgeInsets.all(10),
-            child: Text(transaction.amount.toString()),
+            child: Text(
+              '${transaction.currency}  ${transaction.amount.toString()}',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.redAccent),
+            ),
           ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Text(transaction.title),
-              Text(transaction.date.toString()),
+              Padding(
+                padding: EdgeInsets.only(bottom: 5),
+                child: Text(
+                  transaction.title,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+              ),
+              // Spacer(
+              //   flex: 3,
+              // ),
+              Text(
+                DateFormat.yMMMMEEEEd().add_jm().format(transaction.date),
+                style: TextStyle(fontSize: 12, color: Colors.grey),
+              ),
             ],
           )
         ],

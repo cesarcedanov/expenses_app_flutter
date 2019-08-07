@@ -18,14 +18,17 @@ class MyHomePage extends StatelessWidget {
   final List<Transaction> transactions = [
     Transaction(
         id: '1',
-        title: 'Lunch 08/06/19 Chicken and Rice',
+        title: 'Lunch Chicken and Rice',
         amount: 200,
+        currency: 'RD\$',
         date: DateTime.now()),
     Transaction(
-        id: '1',
-        title: 'Dinner 08/06/19 Bacon Burger',
-        amount: 250,
-        date: DateTime.now()),
+      id: '1',
+      title: 'Dinner Bacon Burger',
+      amount: 250,
+      currency: 'US\$',
+      date: DateTime.now(),
+    )
   ];
 
   @override
