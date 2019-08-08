@@ -30,6 +30,7 @@ class AddTransactionModal extends StatelessWidget {
               onPressed: () {
                 addTransaction(
                     titleController.text, double.parse(amountController.text));
+                FocusScope.of(context).requestFocus(new FocusNode());
               },
             ),
           ],
