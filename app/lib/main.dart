@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './transaction.dart';
 import './transactionCard.dart';
+import './addTransactionModal.dart';
 
 void main() => runApp(MyApp());
 
@@ -38,7 +39,6 @@ class MyHomePage extends StatelessWidget {
           title: Text('My Expenses App'),
         ),
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
@@ -49,6 +49,7 @@ class MyHomePage extends StatelessWidget {
                 child: Text('This will be a Chart'),
               ),
             ),
+            AddTransactionModal(),
             Column(
               children: transactions
                   .map((transaction) => TransactionCard(transaction))
