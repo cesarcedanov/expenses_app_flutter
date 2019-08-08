@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 
-class AddTransactionModal extends StatelessWidget {
+class AddTransactionModal extends StatefulWidget {
   final Function addTransaction;
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
 
   AddTransactionModal(this.addTransaction);
+
+  @override
+  _AddTransactionModalState createState() => _AddTransactionModalState();
+}
+
+class _AddTransactionModalState extends State<AddTransactionModal> {
+  final titleController = TextEditingController();
+
+  final amountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,15 +29,16 @@ class AddTransactionModal extends StatelessWidget {
             ),
             TextField(
               decoration: InputDecoration(labelText: 'Amount:'),
+              keyboardType: TextInputType.number,
               controller: amountController,
             ),
             FlatButton(
               color: Colors.blue,
               child: Text('Add Transaction'),
               onPressed: () {
-                addTransaction(
+                widget.addTransaction(
                     titleController.text, double.parse(amountController.text));
-                FocusScope.of(context).requestFocus(new FocusNode());
+                Navigator.of(context).pop();
               },
             ),
           ],

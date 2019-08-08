@@ -20,7 +20,7 @@ class TransactionCard extends StatelessWidget {
                 border: Border.all(color: Colors.black, width: 2)),
             padding: EdgeInsets.all(10),
             child: Text(
-              '${transaction.currency}  ${transaction.amount.toString()}',
+              '${transaction.currency} ${transaction.amount.toStringAsFixed(2)}',
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
