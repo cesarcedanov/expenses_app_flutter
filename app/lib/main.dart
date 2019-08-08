@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import './transaction.dart';
-import './transactionCard.dart';
-import './addTransactionModal.dart';
+import './widgets/user_transaction.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,22 +14,6 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  final List<Transaction> transactions = [
-    Transaction(
-        id: '1',
-        title: 'Lunch Chicken and Rice',
-        amount: 200,
-        currency: 'RD\$',
-        date: DateTime.now()),
-    Transaction(
-      id: '1',
-      title: 'Dinner Bacon Burger',
-      amount: 250,
-      currency: 'US\$',
-      date: DateTime.now(),
-    )
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,12 +31,7 @@ class MyHomePage extends StatelessWidget {
                 child: Text('This will be a Chart'),
               ),
             ),
-            AddTransactionModal(),
-            Column(
-              children: transactions
-                  .map((transaction) => TransactionCard(transaction))
-                  .toList(),
-            )
+            UserTransaction(),
           ],
         ));
   }
