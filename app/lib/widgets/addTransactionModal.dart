@@ -33,7 +33,7 @@ class _AddTransactionModalState extends State<AddTransactionModal> {
               controller: amountController,
             ),
             FlatButton(
-              color: Colors.blue,
+              color: Theme.of(context).accentColor,
               child: Text('Add Transaction'),
               onPressed: () {
                 widget.addTransaction(

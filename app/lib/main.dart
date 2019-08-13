@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import './widgets/transactionList.dart';
 import './widgets/addTransactionModal.dart';
 import './widgets/chart.dart';
@@ -11,7 +12,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'My Expenses App',
-      theme: ThemeData(primarySwatch: Colors.blueGrey, fontFamily: 'Quicksand'),
+      theme: ThemeData(
+          primarySwatch: Colors.green,
+          accentColor: Colors.orangeAccent,
+          fontFamily: 'Quicksand',
+          textTheme: ThemeData.light().textTheme.copyWith(
+                title: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
+              ),
+          appBarTheme: AppBarTheme(
+            textTheme: ThemeData.light().textTheme.copyWith(
+                  title: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+          )),
       home: MyHomePage(),
     );
   }
@@ -90,15 +109,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              child: Chart(_recentTransactions),
-            ),
-            Column(
-              children: <Widget>[
-                TransactionList(_userTransactions),
-              ],
-            ),
+            Chart(_recentTransactions),
+            TransactionList(_userTransactions),
             Container(
               alignment: Alignment.bottomCenter,
               child: Text(
