@@ -4,12 +4,13 @@ import './transactionCard.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactionList;
+  final Function deleteTransaction;
 
-  TransactionList(this.transactionList);
+  TransactionList(this.transactionList, this.deleteTransaction);
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 400,
+      height: 450,
       child: transactionList.isEmpty
           ? Column(
               children: <Widget>[
@@ -31,7 +32,8 @@ class TransactionList extends StatelessWidget {
             )
           : ListView.builder(
               itemBuilder: (ctx, index) {
-                return TransactionCard(transactionList[index]);
+                return TransactionCard(
+                    transactionList[index], deleteTransaction);
               },
               itemCount: transactionList.length,
               // children: transactionList

@@ -5,8 +5,41 @@ import '../models/transaction.dart';
 
 class TransactionCard extends StatelessWidget {
   final Transaction transaction;
+  final Function deleteTransaction;
 
-  TransactionCard(this.transaction);
+  TransactionCard(this.transaction, this.deleteTransaction);
+
+  void _showDialog(ctx) {
+    // flutter defined function
+    showDialog(
+      context: ctx,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Delete confirmation"),
+          content: new Text("Do you want to delete this transaction?"),
+          actions: <Widget>[
+            FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text(
+                'Delete',
+                style: TextStyle(color: Theme.of(ctx).errorColor),
+              ),
+              onPressed: () {
+                deleteTransaction(transaction.id);
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +63,11 @@ class TransactionCard extends StatelessWidget {
         ),
         subtitle: Text(
           DateFormat.yMMMd().format(transaction.date),
+        ),
+        trailing: IconButton(
+          icon: Icon(Icons.delete),
+          color: Theme.of(context).errorColor,
+          onPressed: () => _showDialog(context),
         ),
       ),
     );
