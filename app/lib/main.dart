@@ -60,6 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // ),
   ];
 
+  bool _showChart = false;
+
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((transaction) {
       return transaction.date.isAfter(
@@ -104,23 +106,65 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    final appBar = AppBar(
+      title: Text('My Expenses App'),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _showAddTransactionModal(context),
+        )
+      ],
+    );
+
+    final _BodySize = (MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top);
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('My Expenses App'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _showAddTransactionModal(context),
-          )
-        ],
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Chart(_recentTransactions),
-            TransactionList(_userTransactions, _deleteTransaction),
+            if (!isLandscape)
+              Container(
+                height: _BodySize * 0.3,
+                child: Chart(_recentTransactions),
+              ),
+            if (!isLandscape)
+              Container(
+                  height: _BodySize * 0.6,
+                  child:
+                      TransactionList(_userTransactions, _deleteTransaction)),
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('Show chart:'),
+                  Switch(
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            if (isLandscape)
+              _showChart
+                  ? Container(
+                      height: _BodySize * 0.5,
+                      child: Chart(_recentTransactions),
+                    )
+                  : Container(
+                      height: _BodySize * 0.5,
+                      child: TransactionList(
+                          _userTransactions, _deleteTransaction)),
             Container(
+              height: _BodySize * 0.1,
               alignment: Alignment.bottomCenter,
               child: Text(
                 'created by \@CesarCedanoV',
