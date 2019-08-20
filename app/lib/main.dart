@@ -104,6 +104,49 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  List<Widget> _buildLandscapeContent(
+    double _bodySize,
+  ) {
+    return <Widget>[
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text('Show chart:'),
+          Switch.adaptive(
+            value: _showChart,
+            onChanged: (val) {
+              setState(() {
+                _showChart = val;
+              });
+            },
+          ),
+        ],
+      ),
+      _showChart
+          ? Container(
+              height: _bodySize * 0.5,
+              child: Chart(_recentTransactions),
+            )
+          : Container(
+              height: _bodySize * 0.5,
+              child: TransactionList(_userTransactions, _deleteTransaction)),
+    ];
+  }
+
+  List<Widget> _buildPortraitContent(
+    double _bodySize,
+  ) {
+    return [
+      Container(
+        height: _bodySize * 0.3,
+        child: Chart(_recentTransactions),
+      ),
+      Container(
+          height: _bodySize * 0.6,
+          child: TransactionList(_userTransactions, _deleteTransaction)),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
@@ -129,41 +172,8 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              if (!isLandscape)
-                Container(
-                  height: _BodySize * 0.3,
-                  child: Chart(_recentTransactions),
-                ),
-              if (!isLandscape)
-                Container(
-                    height: _BodySize * 0.6,
-                    child:
-                        TransactionList(_userTransactions, _deleteTransaction)),
-              if (isLandscape)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Text('Show chart:'),
-                    Switch.adaptive(
-                      value: _showChart,
-                      onChanged: (val) {
-                        setState(() {
-                          _showChart = val;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              if (isLandscape)
-                _showChart
-                    ? Container(
-                        height: _BodySize * 0.5,
-                        child: Chart(_recentTransactions),
-                      )
-                    : Container(
-                        height: _BodySize * 0.5,
-                        child: TransactionList(
-                            _userTransactions, _deleteTransaction)),
+              if (!isLandscape) ..._buildPortraitContent(_BodySize),
+              if (isLandscape) ..._buildLandscapeContent(_BodySize),
               Container(
                 height: _BodySize * 0.1,
                 alignment: Alignment.bottomCenter,
