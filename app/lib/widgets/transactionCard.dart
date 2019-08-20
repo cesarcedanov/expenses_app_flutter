@@ -7,7 +7,8 @@ class TransactionCard extends StatelessWidget {
   final Transaction transaction;
   final Function deleteTransaction;
 
-  TransactionCard(this.transaction, this.deleteTransaction);
+  TransactionCard(
+      {@required this.transaction, @required this.deleteTransaction});
 
   void _showDialog(ctx) {
     // flutter defined function
@@ -16,11 +17,11 @@ class TransactionCard extends StatelessWidget {
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Delete confirmation"),
-          content: new Text("Do you want to delete this transaction?"),
+          title: const Text("Delete confirmation"),
+          content: const Text("Do you want to delete this transaction?"),
           actions: <Widget>[
             FlatButton(
-              child: new Text("Close"),
+              child: const Text("Close"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -64,11 +65,18 @@ class TransactionCard extends StatelessWidget {
         subtitle: Text(
           DateFormat.yMMMd().format(transaction.date),
         ),
-        trailing: IconButton(
-          icon: Icon(Icons.delete),
-          color: Theme.of(context).errorColor,
-          onPressed: () => _showDialog(context),
-        ),
+        trailing: MediaQuery.of(context).size.width > 500
+            ? FlatButton.icon(
+                icon: const Icon(Icons.delete),
+                label: const Text('Delete'),
+                textColor: Theme.of(context).errorColor,
+                onPressed: () => _showDialog(context),
+              )
+            : IconButton(
+                icon: const Icon(Icons.delete),
+                color: Theme.of(context).errorColor,
+                onPressed: () => _showDialog(context),
+              ),
       ),
     );
 

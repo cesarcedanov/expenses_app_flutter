@@ -13,8 +13,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'My Expenses App',
       theme: ThemeData(
-          primarySwatch: Colors.green,
-          accentColor: Colors.orangeAccent,
+          primarySwatch: Colors.lightBlue,
+          accentColor: Colors.teal,
           fontFamily: 'Quicksand',
           textTheme: ThemeData.light().textTheme.copyWith(
                 title: TextStyle(
@@ -106,72 +106,74 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
     final appBar = AppBar(
-      title: Text('My Expenses App'),
+      title: const Text('My Expenses App'),
       actions: <Widget>[
         IconButton(
-          icon: Icon(Icons.add),
+          icon: const Icon(Icons.add),
           onPressed: () => _showAddTransactionModal(context),
         )
       ],
     );
 
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final _BodySize = (MediaQuery.of(context).size.height -
         appBar.preferredSize.height -
         MediaQuery.of(context).padding.top);
 
     return Scaffold(
       appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            if (!isLandscape)
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              if (!isLandscape)
+                Container(
+                  height: _BodySize * 0.3,
+                  child: Chart(_recentTransactions),
+                ),
+              if (!isLandscape)
+                Container(
+                    height: _BodySize * 0.6,
+                    child:
+                        TransactionList(_userTransactions, _deleteTransaction)),
+              if (isLandscape)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text('Show chart:'),
+                    Switch.adaptive(
+                      value: _showChart,
+                      onChanged: (val) {
+                        setState(() {
+                          _showChart = val;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              if (isLandscape)
+                _showChart
+                    ? Container(
+                        height: _BodySize * 0.5,
+                        child: Chart(_recentTransactions),
+                      )
+                    : Container(
+                        height: _BodySize * 0.5,
+                        child: TransactionList(
+                            _userTransactions, _deleteTransaction)),
               Container(
-                height: _BodySize * 0.3,
-                child: Chart(_recentTransactions),
-              ),
-            if (!isLandscape)
-              Container(
-                  height: _BodySize * 0.6,
-                  child:
-                      TransactionList(_userTransactions, _deleteTransaction)),
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text('Show chart:'),
-                  Switch(
-                    value: _showChart,
-                    onChanged: (val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            if (isLandscape)
-              _showChart
-                  ? Container(
-                      height: _BodySize * 0.5,
-                      child: Chart(_recentTransactions),
-                    )
-                  : Container(
-                      height: _BodySize * 0.5,
-                      child: TransactionList(
-                          _userTransactions, _deleteTransaction)),
-            Container(
-              height: _BodySize * 0.1,
-              alignment: Alignment.bottomCenter,
-              child: Text(
-                'created by \@CesarCedanoV',
-                style: TextStyle(color: Colors.grey, fontSize: 14),
-              ),
-            )
-          ],
+                height: _BodySize * 0.1,
+                alignment: Alignment.bottomCenter,
+                child: const Text(
+                  'created by \@CesarCedanoV',
+                  style: TextStyle(color: Colors.grey, fontSize: 14),
+                ),
+              )
+            ],
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
