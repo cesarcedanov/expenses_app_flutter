@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import './widgets/transactionList.dart';
-import './widgets/addTransactionModal.dart';
+import './widgets/transaction_list.dart';
+import './widgets/add_transaction_modal.dart';
 import './widgets/chart.dart';
 import './models/transaction.dart';
 
