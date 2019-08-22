@@ -4,10 +4,15 @@ import 'package:intl/intl.dart';
 class AddTransactionModal extends StatefulWidget {
   final Function addTransaction;
 
-  AddTransactionModal(this.addTransaction);
+  AddTransactionModal(this.addTransaction) {
+    print("Constructor");
+  }
 
   @override
-  _AddTransactionModalState createState() => _AddTransactionModalState();
+  _AddTransactionModalState createState() {
+    print("createState");
+    return _AddTransactionModalState();
+  }
 }
 
 class _AddTransactionModalState extends State<AddTransactionModal> {
@@ -15,6 +20,31 @@ class _AddTransactionModalState extends State<AddTransactionModal> {
   final amountController = TextEditingController();
 
   DateTime _selectedDate;
+
+  _AddTransactionModalState() {
+    print("Constructor State");
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    print("initState");
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(AddTransactionModal oldWidget) {
+    // TODO: implement didUpdateWidget
+    print("didUpdateWidget");
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    print("dispose");
+    super.dispose();
+  }
 
   void _showDatePicker() {
     showDatePicker(
