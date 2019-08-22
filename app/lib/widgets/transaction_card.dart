@@ -1,14 +1,36 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../models/transaction.dart';
 
-class TransactionCard extends StatelessWidget {
+class TransactionCard extends StatefulWidget {
   final Transaction transaction;
   final Function deleteTransaction;
 
   TransactionCard(
       {@required this.transaction, @required this.deleteTransaction});
+
+  @override
+  _TransactionCardState createState() => _TransactionCardState();
+}
+
+class _TransactionCardState extends State<TransactionCard> {
+  Color _bgColor;
+
+  @override
+  void initState() {
+    const availbleColors = [
+      Colors.red,
+      Colors.black,
+      Colors.blue,
+      Colors.purple,
+    ];
+
+    _bgColor = availbleColors[Random().nextInt(4)];
+    // TODO: implement initState
+    super.initState();
+  }
 
   void _showDialog(ctx) {
     // flutter defined function
@@ -32,7 +54,7 @@ class TransactionCard extends StatelessWidget {
                 style: TextStyle(color: Theme.of(ctx).errorColor),
               ),
               onPressed: () {
-                deleteTransaction(transaction.id);
+                widget.deleteTransaction(widget.transaction.id);
                 Navigator.of(context).pop();
               },
             )
@@ -49,21 +71,22 @@ class TransactionCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
       child: ListTile(
         leading: CircleAvatar(
+          backgroundColor: _bgColor,
           radius: 30,
           child: Padding(
             padding: EdgeInsets.all(5),
             child: FittedBox(
               child: Text(
-                  '${transaction.currency} ${transaction.amount.toStringAsFixed(2)}'),
+                  '${widget.transaction.currency} ${widget.transaction.amount.toStringAsFixed(2)}'),
             ),
           ),
         ),
         title: Text(
-          transaction.title,
+          widget.transaction.title,
           style: Theme.of(context).textTheme.title,
         ),
         subtitle: Text(
-          DateFormat.yMMMd().format(transaction.date),
+          DateFormat.yMMMd().format(widget.transaction.date),
         ),
         trailing: MediaQuery.of(context).size.width > 500
             ? FlatButton.icon(
